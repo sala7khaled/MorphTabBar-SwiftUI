@@ -7,40 +7,67 @@
 
 import SwiftUI
 
-struct MorphTabBar<ExpandedContent: View>: View {
-    
-    // MARK: - Properties
-    var barHeight: CGFloat = 52
+struct MorphTabBar: View {
     
     // MARK: - Builders
     @Binding var activeTab: AppTab
     @Binding var isExpanded: Bool
-    @ViewBuilder var expandedContent: ExpandedContent
     @State private var viewWidth: CGFloat?
+    
+    // MARK: - Properties
+    var barHeight: CGFloat = 52
+    var actions: [ActionModel]
+    var onActionTap: (Int, ActionModel) -> Void
     
     // MARK: - View
     var body: some View {
-        ZStack {
+        HStack(alignment: .bottom, spacing: 12) {
             
-            let icons = Array(AppTab.allCases).compactMap( { $0.icon })
+            tabBarView
+            
+            Button {
+                withAnimation(.bouncy(duration: 0.5, extraBounce: 0.05)) {
+                    isExpanded.toggle()
+                }
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 19, weight: .medium))
+                    .rotationEffect(.degrees(isExpanded ? 45 : 0))
+                    .frame(width: 52, height: 52)
+                    .foregroundStyle(.primary)
+            }
+            .buttonStyle(MorphButtonStyle(shape: .circle))
+        }
+    }
+    
+    // MARK: - Tab Bar View
+    @ViewBuilder
+    private var tabBarView: some View {
+        ZStack {
+            let icons = Array(AppTab.allCases).compactMap { $0.icon }
+            
             let selectedIndex = Binding {
-                return icons.firstIndex(of: activeTab.icon) ?? 0
+                icons.firstIndex(of: activeTab.icon) ?? 0
             } set: { index in
                 activeTab = Array(AppTab.allCases)[index]
             }
             
             if let viewWidth {
                 let progress: CGFloat = isExpanded ? 1 : 0
-                let labelSize: CGSize = CGSize(width: viewWidth, height: barHeight)
-                let cornerRadius: CGFloat = labelSize.height / 2
+                let labelSize = CGSize(width: viewWidth, height: barHeight)
+                let cornerRadius = labelSize.height / 2
                 
-                MorphGlassView(alignment: .center, progress: progress, labelSize: labelSize, cornerRadius: cornerRadius) {
-                    expandedContent
+                MorphGlassView(
+                    alignment: .center,
+                    progress: progress,
+                    labelSize: labelSize,
+                    cornerRadius: cornerRadius
+                ) {
+                    actionsView
                 } label: {
-                    CustomTabBar(index: selectedIndex, icons: icons) { image in
+                    GlassTabBar(index: selectedIndex, icons: icons) { image in
                         let font = UIFont.systemFont(ofSize: 19)
                         let config = UIImage.SymbolConfiguration(font: font)
-                        
                         return UIImage(systemName: image, withConfiguration: config)
                     }
                     .frame(height: barHeight - 4)
@@ -57,11 +84,57 @@ struct MorphTabBar<ExpandedContent: View>: View {
         }
         .frame(height: viewWidth == nil ? barHeight : nil)
     }
+    
+    // MARK: - Actions View
+    @ViewBuilder
+    private var actionsView: some View {
+        GlassEffectContainer(spacing: 10) {
+            LazyVGrid(
+                columns: Array(repeating: GridItem(spacing: 10), count: 4),
+                spacing: 10
+            ) {
+                ForEach(Array(actions.enumerated()), id: \.element.id) { index, action in
+                    VStack(spacing: 6) {
+                        Button {
+                            onActionTap(index, action)
+                            
+                            withAnimation(.bouncy(duration: 0.4)) {
+                                isExpanded = false
+                            }
+                        } label: {
+                            Image(systemName: action.icon)
+                                .font(.title3)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 50)
+                                .foregroundStyle(action.color.opacity(0.7))
+                                .background(.gray.opacity(0.09), in: .rect(cornerRadius: 16))
+                        }
+                        .buttonStyle(
+                            MorphButtonStyle(shape: .rect(cornerRadius: 16))
+                        )
+                        
+                        Text(action.title)
+                            .font(.system(size: 9))
+                            .foregroundStyle(action.color)
+                    }
+                }
+            }
+        }
+        .padding(10)
+    }
+}
+
+#Preview {
+    @Previewable @State var activeTab: AppTab = .home
+    @Previewable @State var isExpanded: Bool = false
+    
+    MorphTabBar(activeTab: $activeTab, isExpanded: $isExpanded, actions: ActionModel.dummyList) {_,_ in }
 }
 
 
-// MARK: - Custom Tab Bar
-fileprivate struct CustomTabBar: UIViewRepresentable {
+
+// MARK: - Glass Tab Bar
+fileprivate struct GlassTabBar: UIViewRepresentable {
     
     @Binding var index: Int
     var tint: Color = .gray.opacity(0.15)
@@ -101,8 +174,9 @@ fileprivate struct CustomTabBar: UIViewRepresentable {
     }
     
     class Coordinator: NSObject {
-        var parent: CustomTabBar
-        init(parent: CustomTabBar) {
+        var parent: GlassTabBar
+        
+        init(parent: GlassTabBar) {
             self.parent = parent
         }
         
@@ -115,11 +189,4 @@ fileprivate struct CustomTabBar: UIViewRepresentable {
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UISegmentedControl, context: Context) -> CGSize? {
         return proposal.replacingUnspecifiedDimensions()
     }
-}
-
-#Preview {
-    @Previewable @State var activeTab: AppTab = .home
-    @Previewable @State var isExpanded: Bool = false
-    
-    MorphTabBar(activeTab: $activeTab, isExpanded: $isExpanded) {}
 }
