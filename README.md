@@ -52,7 +52,7 @@ A SwiftUI custom tab bar with a morphing glass effect, expandable actions, and d
 var body: some View {
     ZStack(alignment: .bottom) {
         activeTab.view
-        MorphTabBar(activeTab: $bind, isExpanded: $bind, actions: []) { index, action in
+        MorphTabBar(activeTab: $bind, isExpand: $bind, actions: []) { i, action in
             // handle action
         }
     }
