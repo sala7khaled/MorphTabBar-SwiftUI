@@ -14,25 +14,30 @@ A SwiftUI custom tab bar with a morphing glass effect, expandable actions, and d
 <br>
 <br>
 
+### Light Mode:
+<p align="start">
+  <img src="https://github.com/user-attachments/assets/08f63466-c231-403e-b480-b6148901510a" width="236">
+  &nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/light-1.png" width="250">
+  <!-- &nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/light-2.png" width="250"> -->
+  &nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/light-3.png" width="250">
+</p>
+
 ### Dark Mode:
 <p align="start">
-  <img src="Screenshots/dark-1.png" width="250">
+  <img src="https://github.com/user-attachments/assets/533d75f5-c1e6-49aa-83cf-6d47c1d19857" width="236">
   &nbsp;&nbsp;&nbsp;
-  <img src="Screenshots/dark-2.png" width="250">
+  <img src="Screenshots/dark-1.png" width="250">
+  <!-- &nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/dark-2.png" width="250"> -->
   &nbsp;&nbsp;&nbsp;
   <img src="Screenshots/dark-3.png" width="250">
 </p>
 
 <br>
 
-### Light Mode:
-<p align="start">
-  <img src="Screenshots/light-1.png" width="250">
-  &nbsp;&nbsp;&nbsp;
-  <img src="Screenshots/light-2.png" width="250">
-  &nbsp;&nbsp;&nbsp;
-  <img src="Screenshots/light-3.png" width="250">
-</p>
 
 <br>
 <br>
