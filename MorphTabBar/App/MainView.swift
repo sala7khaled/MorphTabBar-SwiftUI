@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  MorphTabBar
 //
 //  Created by Salah Khaled on 26/02/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
     
     // MARK: - Builders
     @State var activeTab: AppTab = .home
@@ -29,15 +29,12 @@ struct ContentView: View {
             ) { index, action in
                 print("Tapped index: \(index)")
                 print("Action: \(action.title)")
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 25)
-        }
+            }        }
         .ignoresSafeArea(.all, edges: .bottom)
     }
     
 }
 
 #Preview {
-    ContentView()
+    MainView()
 }

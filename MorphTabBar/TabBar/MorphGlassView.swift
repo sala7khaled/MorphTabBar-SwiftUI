@@ -5,7 +5,6 @@
 //  Created by Salah Khaled on 26/02/2026.
 //
 
-
 import SwiftUI
 
 struct MorphGlassView<Content: View, Label: View>: View, Animatable {
@@ -47,8 +46,6 @@ struct MorphGlassView<Content: View, Label: View>: View, Animatable {
                         width: labelSize.width + widthRadius,
                         height: labelSize.height + heightRadius
                     )
-
-                
                 label
                     .compositingGroup()
                     .blur(radius: 14 * blurProgress)

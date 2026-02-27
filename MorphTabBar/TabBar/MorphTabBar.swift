@@ -15,7 +15,7 @@ struct MorphTabBar: View {
     @State private var viewWidth: CGFloat?
     
     // MARK: - Properties
-    var barHeight: CGFloat = 52
+    var barHeight: CGFloat = 62
     var actions: [ActionModel]
     var onActionTap: (Int, ActionModel) -> Void
     
@@ -31,13 +31,15 @@ struct MorphTabBar: View {
                 }
             } label: {
                 Image(systemName: "plus")
-                    .font(.system(size: 19, weight: .medium))
+                    .font(.system(size: 19, weight: .bold))
                     .rotationEffect(.degrees(isExpanded ? 45 : 0))
-                    .frame(width: 52, height: 52)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(isExpanded ? .gray : .primary)
+                    .frame(width: barHeight, height: barHeight)
             }
             .buttonStyle(MorphButtonStyle(shape: .circle))
         }
+        .padding(.horizontal, 20)
+        .padding(.bottom, 25)
     }
     
     // MARK: - Tab Bar View
@@ -66,7 +68,7 @@ struct MorphTabBar: View {
                     actionsView
                 } label: {
                     GlassTabBar(index: selectedIndex, icons: icons) { image in
-                        let font = UIFont.systemFont(ofSize: 19)
+                        let font = UIFont.systemFont(ofSize: 18)
                         let config = UIImage.SymbolConfiguration(font: font)
                         return UIImage(systemName: image, withConfiguration: config)
                     }
