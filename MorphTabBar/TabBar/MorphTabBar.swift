@@ -11,7 +11,7 @@ struct MorphTabBar: View {
     
     // MARK: - Builders
     @Binding var activeTab: AppTab
-    @Binding var isExpanded: Bool
+    @Binding var isExpand: Bool
     @State private var viewWidth: CGFloat?
     
     // MARK: - Properties
@@ -27,13 +27,13 @@ struct MorphTabBar: View {
             
             Button {
                 withAnimation(.bouncy(duration: 0.5, extraBounce: 0.05)) {
-                    isExpanded.toggle()
+                    isExpand.toggle()
                 }
             } label: {
                 Image(systemName: "plus")
                     .font(.system(size: 19, weight: .bold))
-                    .rotationEffect(.degrees(isExpanded ? 45 : 0))
-                    .foregroundStyle(isExpanded ? .gray : .primary)
+                    .rotationEffect(.degrees(isExpand ? 45 : 0))
+                    .foregroundStyle(isExpand ? .gray : .primary)
                     .frame(width: barHeight, height: barHeight)
             }
             .buttonStyle(MorphButtonStyle(shape: .circle))
@@ -55,7 +55,7 @@ struct MorphTabBar: View {
             }
             
             if let viewWidth {
-                let progress: CGFloat = isExpanded ? 1 : 0
+                let progress: CGFloat = isExpand ? 1 : 0
                 let labelSize = CGSize(width: viewWidth, height: barHeight)
                 let cornerRadius = labelSize.height / 2
                 
@@ -101,7 +101,7 @@ struct MorphTabBar: View {
                             onActionTap(index, action)
                             
                             withAnimation(.bouncy(duration: 0.4)) {
-                                isExpanded = false
+                                isExpand = false
                             }
                         } label: {
                             Image(systemName: action.icon)
@@ -128,9 +128,9 @@ struct MorphTabBar: View {
 
 #Preview {
     @Previewable @State var activeTab: AppTab = .home
-    @Previewable @State var isExpanded: Bool = false
+    @Previewable @State var isExpand: Bool = false
     
-    MorphTabBar(activeTab: $activeTab, isExpanded: $isExpanded, actions: ActionModel.dummyList) {_,_ in }
+    MorphTabBar(activeTab: $activeTab, isExpand: $isExpand, actions: ActionModel.dummyList) {_,_ in }
 }
 
 

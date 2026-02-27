@@ -11,28 +11,20 @@ struct MainView: View {
     
     // MARK: - Builders
     @State var activeTab: AppTab = .home
-    @State var isExpanded: Bool = false
+    @State var isExpand: Bool = false
     
     // MARK: - View
     var body: some View {
         ZStack(alignment: .bottom) {
-            Rectangle()
-                .foregroundStyle(.clear)
-                .overlay {
-                    activeTab.view
-                }
             
-            MorphTabBar(
-                activeTab: $activeTab,
-                isExpanded: $isExpanded,
-                actions: ActionModel.dummyList
-            ) { index, action in
-                print("Tapped index: \(index)")
+            activeTab.view
+            
+            MorphTabBar(activeTab: $activeTab, isExpand: $isExpand, actions: ActionModel.dummyList) { i, action in
+                print("Tapped index: \(i)")
                 print("Action: \(action.title)")
             }        }
         .ignoresSafeArea(.all, edges: .bottom)
     }
-    
 }
 
 #Preview {

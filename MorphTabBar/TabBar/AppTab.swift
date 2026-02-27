@@ -53,6 +53,3 @@ enum AppTab: String, CaseIterable {
         .ignoresSafeArea(edges: .bottom)
     }
 }
-
-
-
